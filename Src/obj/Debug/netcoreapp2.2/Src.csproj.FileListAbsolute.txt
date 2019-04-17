@@ -1,0 +1,11 @@
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/bin/Debug/netcoreapp2.2/Src.deps.json
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/bin/Debug/netcoreapp2.2/Src.runtimeconfig.json
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/bin/Debug/netcoreapp2.2/Src.runtimeconfig.dev.json
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/bin/Debug/netcoreapp2.2/Src.dll
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/bin/Debug/netcoreapp2.2/Src.pdb
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/obj/Debug/netcoreapp2.2/Src.csprojAssemblyReference.cache
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/obj/Debug/netcoreapp2.2/Src.csproj.CoreCompileInputs.cache
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/obj/Debug/netcoreapp2.2/Src.AssemblyInfoInputs.cache
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/obj/Debug/netcoreapp2.2/Src.AssemblyInfo.cs
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/obj/Debug/netcoreapp2.2/Src.dll
+/home/marek/Documents/JobHunt/Connecterra/IntervalMerger/Src/obj/Debug/netcoreapp2.2/Src.pdb
