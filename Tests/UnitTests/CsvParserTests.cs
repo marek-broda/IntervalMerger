@@ -31,8 +31,8 @@ namespace IntervalMerger.Tests.UnitTests
             var singleRow = rows.Single();
             var expectedDate = new DateTime(2019,04,17,18,28,00);
             Assert.Equal(expected: expectedDate, actual: singleRow.Arrival);
-            Assert.Equal(expected: 10, actual: singleRow.Start);
-            Assert.Equal(expected: 15, actual: singleRow.End);
+            Assert.Equal(expected: 10, actual: singleRow.Interval.Start);
+            Assert.Equal(expected: 15, actual: singleRow.Interval.End);
             Assert.Equal(expected: IntervalAction.Added, actual: singleRow.Action);
         }
 
@@ -59,15 +59,15 @@ namespace IntervalMerger.Tests.UnitTests
             var firstRow = rows.First();
             var expectedDate1 = new DateTime(2019,04,17,18,28,00);
             Assert.Equal(expected: expectedDate1, actual: firstRow.Arrival);
-            Assert.Equal(expected: 10, actual: firstRow.Start);
-            Assert.Equal(expected: 15, actual: firstRow.End);
+            Assert.Equal(expected: 10, actual: firstRow.Interval.Start);
+            Assert.Equal(expected: 15, actual: firstRow.Interval.End);
             Assert.Equal(expected: IntervalAction.Added, actual: firstRow.Action);
 
             var secondRow = rows.Last();
             var expectedDate2 = new DateTime(2019,04,17,18,29,00);
             Assert.Equal(expected: expectedDate2, actual: secondRow.Arrival);
-            Assert.Equal(expected: 20, actual: secondRow.Start);
-            Assert.Equal(expected: 25, actual: secondRow.End);
+            Assert.Equal(expected: 20, actual: secondRow.Interval.Start);
+            Assert.Equal(expected: 25, actual: secondRow.Interval.End);
             Assert.Equal(expected: IntervalAction.Removed, actual: secondRow.Action);
         }
 

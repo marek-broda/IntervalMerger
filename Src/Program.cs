@@ -1,12 +1,15 @@
 ﻿using System;
+using System.IO;
 
-namespace Src
+namespace IntervalMerger
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var job = new IntervalMergeJob(); 
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "CSVs/basic_test.csv");
+            job.ImportIntervals(path, 7);
         }
     }
 }

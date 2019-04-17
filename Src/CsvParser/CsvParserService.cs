@@ -10,9 +10,9 @@ namespace IntervalMerger.CsvParser
 {
     public class CsvParserService
     {
-        public IEnumerable<Interval> ReadCsv(TextReader textReader)
+        public List<IntervalEntry> ReadCsv(TextReader textReader)
         {
-            var list = new List<Interval>();
+            var list = new List<IntervalEntry>();
 
             using (var csv = new CsvReader(textReader))
             {
@@ -20,7 +20,7 @@ namespace IntervalMerger.CsvParser
                 csv.Configuration.HasHeaderRecord = true;
                 csv.Configuration.RegisterClassMap<CsvRowToIntervalMap>();
 
-                list = csv.GetRecords<Interval>().ToList();
+                list = csv.GetRecords<IntervalEntry>().ToList();
             }
 
             return list; 
