@@ -21,7 +21,7 @@ namespace IntervalMerger
 
             We use stack in event of removal, we cycle back through added 
             to get last added instance of the interval. We remove that, 
-            and then go from there. 
+            and then go again from there. 
             */
         // Item1 : Interval added
         // Item2 : Result of merge
@@ -49,13 +49,11 @@ namespace IntervalMerger
 
             // read the file
             var streamReader = new StreamReader(File.OpenRead(filePath));
-            var csvParser = new CsvParserService();
-
-            // parse it to intervals that we can work with.
-            List<IntervalEntry> intervals = csvParser.ReadCsv(streamReader);
+            
+            var csvParser = new CsvParserService(streamReader);
 
             // loop through entries 
-            foreach (var entry in intervals)
+            foreach (var entry in csvParser.ReadCsv())
             {
                 IEnumerable<Interval> newResult = null;
 
@@ -83,12 +81,16 @@ namespace IntervalMerger
 
         private IEnumerable<Interval> AddEntryToIntervalsStack(IntervalEntry entry)
         {
+            // Get the existing interval merge, or create one if 
+            // there isn't one yet.
             var existingIntervals = _intervalsStack.Any()
                 ? _intervalsStack.Peek().Item2
                 : new List<Interval>();
 
+            // Merge the new entry in
             var newResult = _intervalAdder.MergeIntervalIn(existingIntervals, entry.Interval);
 
+            // push the result to the stack
             var newStackEntry = new Tuple<IntervalEntry, IEnumerable<Interval>>(entry, newResult);
             _intervalsStack.Push(newStackEntry);
 

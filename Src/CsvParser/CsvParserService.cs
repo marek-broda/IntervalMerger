@@ -8,22 +8,27 @@ using CsvHelper.Configuration;
 
 namespace IntervalMerger.CsvParser
 {
-    public class CsvParserService
+    public class CsvParserService : IDisposable
     {
-        public List<IntervalEntry> ReadCsv(TextReader textReader)
+        private CsvReader _csvReader { get; set; }
+
+        public CsvParserService(TextReader textReader)
         {
-            var list = new List<IntervalEntry>();
+            _csvReader = new CsvReader(textReader);
 
-            using (var csv = new CsvReader(textReader))
-            {
-                csv.Configuration.PrepareHeaderForMatch = (string header, int index) => header.ToLower().Trim();
-                csv.Configuration.HasHeaderRecord = true;
-                csv.Configuration.RegisterClassMap<CsvRowToIntervalMap>();
+            _csvReader.Configuration.PrepareHeaderForMatch = (string header, int index) => header.ToLower().Trim();
+            _csvReader.Configuration.HasHeaderRecord = true;
+            _csvReader.Configuration.RegisterClassMap<CsvRowToIntervalMap>();
+        }
 
-                list = csv.GetRecords<IntervalEntry>().ToList();
-            }
+        public IEnumerable<IntervalEntry> ReadCsv()
+        {
+            return _csvReader.GetRecords<IntervalEntry>();
+        }
 
-            return list; 
+        public void Dispose()
+        {
+            _csvReader.Dispose();
         }
     }
 }
