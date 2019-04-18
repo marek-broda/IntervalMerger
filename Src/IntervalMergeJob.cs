@@ -61,7 +61,7 @@ namespace IntervalMerger
 
                 if (entry.Action == IntervalAction.Added)
                 {
-                    newResult = AddEntryToIntervalsStack(entry);
+                    newResult = AddMergedEntryToIntervalsStack(entry);
                 }
                 else if (entry.Action == IntervalAction.Removed)
                 {
@@ -72,15 +72,17 @@ namespace IntervalMerger
                     // and now we recalculate 
                     foreach (var recalculationInterval in recalculationStack)
                     {
-                        newResult = AddEntryToIntervalsStack(recalculationInterval);
+                        if (recalculationInterval.Action == IntervalAction.Added)
+                        {
+                            newResult = AddMergedEntryToIntervalsStack(recalculationInterval);
+                        }
+                        else
+                            newResult = AddDeletedEntryToIntervalsStack(recalculationInterval);
                     }
                 }
                 else
                 {
-                    var existingIntervals = GetCurrentIntervals();
-                    newResult = _intervalDeleter.DeleteIntervalFrom(existingIntervals, entry.Interval);
-
-                    PushLatestResultsToStack(entry, newResult);
+                    newResult = AddDeletedEntryToIntervalsStack(entry);
                 }
 
                 // Write the result to the console.
@@ -88,7 +90,7 @@ namespace IntervalMerger
             }
         }
 
-        private IEnumerable<Interval> AddEntryToIntervalsStack(IntervalEntry entry)
+        private IEnumerable<Interval> AddMergedEntryToIntervalsStack(IntervalEntry entry)
         {
             // Get the existing interval merge, or create one if 
             // there isn't one yet.
@@ -98,6 +100,16 @@ namespace IntervalMerger
             var newResult = _intervalAdder.MergeIntervalIn(existingIntervals, entry.Interval);
 
             // push the result to the stack
+            PushLatestResultsToStack(entry, newResult);
+
+            return newResult;
+        }
+
+        private IEnumerable<Interval> AddDeletedEntryToIntervalsStack(IntervalEntry entry)
+        {
+            var existingIntervals = GetCurrentIntervals();
+            var newResult = _intervalDeleter.DeleteIntervalFrom(existingIntervals, entry.Interval);
+
             PushLatestResultsToStack(entry, newResult);
 
             return newResult;
@@ -123,10 +135,10 @@ namespace IntervalMerger
                 }
                 else
                 {
-                    var message = 
+                    var message =
                         string.Format(entry.Interval.ToString() + " does not seem to be there to remove");
                     Console.WriteLine(message);
-                    
+
                     break;
                 }
             }
