@@ -13,7 +13,7 @@ namespace IntervalMerger
             stopwatch.Start();
 
             var job = new IntervalMergeJob(); 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "CSVs/large_file.csv");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "CSVs/edge_cases.csv");
             job.ImportIntervals(path, 7);
 
             stopwatch.Stop();
