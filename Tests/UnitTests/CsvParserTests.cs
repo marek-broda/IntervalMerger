@@ -41,7 +41,6 @@ namespace IntervalMerger.Tests.UnitTests
             Assert.Equal(expectedResult.Interval.Start, actual: row.Interval.Start);
             Assert.Equal(expectedResult.Interval.End, actual: row.Interval.End);
             Assert.Equal(expectedResult.Action, actual: row.Action);
-
         }
 
         [Fact]
