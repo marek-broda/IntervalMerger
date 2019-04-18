@@ -123,7 +123,10 @@ namespace IntervalMerger
                 }
                 else
                 {
-                    Console.WriteLine("The item you are trying to remove is not there.");
+                    var message = 
+                        string.Format(entry.Interval.ToString() + " does not seem to be there to remove");
+                    Console.WriteLine(message);
+                    
                     break;
                 }
             }
