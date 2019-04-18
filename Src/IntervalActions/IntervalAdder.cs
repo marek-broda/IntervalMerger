@@ -16,6 +16,15 @@ namespace IntervalMerger.IntervalActions
             _mergeDistance = mergeDistance;
         }
 
+        /// <summary>
+        /// Merges together an existing group of intervals with the 
+        /// new interval we want to merge in. 
+        /// Adds new to existing, reorders, then yield return intervals 
+        /// after checking for overlap.
+        /// </summary>
+        /// <param name="existingIntervals"></param>
+        /// <param name="mergeInterval"></param>
+        /// <returns></returns>
         public IEnumerable<Interval> MergeIntervalIn(
             IEnumerable<Interval> existingIntervals,
             Interval mergeInterval)
@@ -24,7 +33,7 @@ namespace IntervalMerger.IntervalActions
             var intervals = existingIntervals.ToList();
             intervals.Add(mergeInterval);
             intervals = intervals.OrderBy(x => x.Start).ToList();
-
+            
             // our starting point is this
             var possibleInterval = intervals.First();  
             foreach (var interval in intervals.Skip(1))

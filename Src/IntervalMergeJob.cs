@@ -32,6 +32,17 @@ namespace IntervalMerger
             _intervalsStack = new Stack<Tuple<IntervalEntry, IEnumerable<Interval>>>();
         }
 
+        /// <summary>
+        /// Reads the items in the given file, parses them to IntervalEntries
+        /// and then processes each intervalentry row by row.
+        /// </summary>
+        /// <param name="filePath">
+        /// The path to the CSV containing the interval entries 
+        /// </param>
+        /// <param name="mergeDistance">
+        /// The distance allowed between two intervals for them to be
+        /// considered viable for a merge.
+        /// </param>
         public void ImportIntervals(string filePath, int mergeDistance)
         {
             _intervalAdder = new IntervalAdder(mergeDistance);
@@ -83,7 +94,7 @@ namespace IntervalMerger
 
             return newResult;
         }
- 
+
         private Stack<IntervalEntry> GetRecalculationStack(IntervalEntry entry)
         {
             var recalculationStack = new Stack<IntervalEntry>();
@@ -98,13 +109,24 @@ namespace IntervalMerger
                 _intervalsStack.Pop();
 
                 // Check the next one
-                lastInterval = _intervalsStack.Peek().Item1;
+                if (_intervalsStack.Any())
+                {
+                    lastInterval = _intervalsStack.Peek().Item1;
+                }
+                else
+                {
+                    Console.WriteLine("The item you are trying to remove is not there.");
+                    break;
+                }
             }
 
             // Get rid of this last one from the intervals stack
             // as this is the one we're removing
             // this is the one we are removing
-            _intervalsStack.Pop();
+            if (_intervalsStack.Any())
+            {
+                _intervalsStack.Pop();
+            }
 
             return recalculationStack;
         }
