@@ -13,6 +13,7 @@ namespace IntervalMerger.IntervalActions
         {
             if (mergeDistance < 0)
                 throw new ArgumentOutOfRangeException(); 
+
             _mergeDistance = mergeDistance;
         }
 

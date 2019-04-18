@@ -18,5 +18,20 @@ namespace IntervalMerger.Model
         {
             return string.Format("({0} {1})", Start, End);
         }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Interval; 
+            if (other == null)
+                return false; 
+
+            return other.Start == this.Start 
+                && other.End == this.End; 
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Start * 31 + this.End;
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace IntervalMerger
     public class IntervalMergeJob
     {
         private IntervalAdder _intervalAdder { get; set; }
+        private IntervalDeleter _intervalDeleter { get; set; }
 
         /* 
             Re these intervals. We can assume that they come 
@@ -30,6 +31,7 @@ namespace IntervalMerger
         public IntervalMergeJob()
         {
             _intervalsStack = new Stack<Tuple<IntervalEntry, IEnumerable<Interval>>>();
+            _intervalDeleter = new IntervalDeleter();
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace IntervalMerger
 
             // read the file
             var streamReader = new StreamReader(File.OpenRead(filePath));
-            
+
             var csvParser = new CsvParserService(streamReader);
 
             // loop through entries 
@@ -61,7 +63,7 @@ namespace IntervalMerger
                 {
                     newResult = AddEntryToIntervalsStack(entry);
                 }
-                else
+                else if (entry.Action == IntervalAction.Removed)
                 {
                     // we need to loop back through the stack to the last instance 
                     // of the interval - then we need to recalculate. 
@@ -73,6 +75,13 @@ namespace IntervalMerger
                         newResult = AddEntryToIntervalsStack(recalculationInterval);
                     }
                 }
+                else
+                {
+                    var existingIntervals = GetCurrentIntervals();
+                    newResult = _intervalDeleter.DeleteIntervalFrom(existingIntervals, entry.Interval);
+
+                    PushLatestResultsToStack(entry, newResult);
+                }
 
                 // Write the result to the console.
                 Console.WriteLine(string.Join(" ", newResult.Select(i => i.ToString())));
@@ -83,16 +92,13 @@ namespace IntervalMerger
         {
             // Get the existing interval merge, or create one if 
             // there isn't one yet.
-            var existingIntervals = _intervalsStack.Any()
-                ? _intervalsStack.Peek().Item2
-                : new List<Interval>();
+            var existingIntervals = GetCurrentIntervals();
 
             // Merge the new entry in
             var newResult = _intervalAdder.MergeIntervalIn(existingIntervals, entry.Interval);
 
             // push the result to the stack
-            var newStackEntry = new Tuple<IntervalEntry, IEnumerable<Interval>>(entry, newResult);
-            _intervalsStack.Push(newStackEntry);
+            PushLatestResultsToStack(entry, newResult);
 
             return newResult;
         }
@@ -131,6 +137,20 @@ namespace IntervalMerger
             }
 
             return recalculationStack;
+        }
+
+        private IEnumerable<Interval> GetCurrentIntervals()
+        {
+            return _intervalsStack.Any()
+                ? _intervalsStack.Peek().Item2
+                : new List<Interval>();
+        }
+
+        private void PushLatestResultsToStack(IntervalEntry entry, IEnumerable<Interval> newResult)
+        {
+            // push the result to the stack
+            var newStackEntry = new Tuple<IntervalEntry, IEnumerable<Interval>>(entry, newResult);
+            _intervalsStack.Push(newStackEntry);
         }
     }
 }
