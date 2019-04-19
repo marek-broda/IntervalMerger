@@ -4,6 +4,5 @@ Arrival Time,Start,End,Action,
 04/16/19 08:45 AM,60,89,ADDED,"normal between, entirely encompassed"
 04/16/19 08:46 AM,100,110,DELETED,delete within massive range
 04/16/19 08:50 AM,-2147483647,2147483647,REMOVED,remove min max ints
-04/16/19 08:51 AM,150,90,ADDED,min less than max
 04/16/19 08:52 AM,-1,-1,ADDED,both numbers equal within merge distance
 05/16/19 08:53 AM,-10,-10,ADDED,both numbers equal outside merge distance
